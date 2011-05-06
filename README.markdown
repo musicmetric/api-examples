@@ -13,3 +13,7 @@ Getting Access
 Note that all these examples require you to have an API key.  These are issued automatically simply apply [over here](https://secure.semetric.com/sf-api-signup)
 
 Once you have an API key, simply insert it in the file `apikey.py`
+
+Dependancies
+------------
+There are some external library dependancies for some of the examples, these are listed in each example.
