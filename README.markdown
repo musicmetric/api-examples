@@ -17,3 +17,8 @@ Once you have an API key, simply insert it in the file `apikey.py`
 Dependancies
 ------------
 There are some external library dependancies for some of the examples, these are listed in each example.
+
+
+License
+-------
+All examples are provided under [GNU Public License v2](http://www.gnu.org/licenses/gpl-2.0.html), the terms of which can be found in LICENSE.txt.  Code may be made available under other terms, for more information contact [api@musicmetric.com](mailto:api@musicmetric.com)
