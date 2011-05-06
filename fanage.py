@@ -6,18 +6,13 @@ Musicmetric at the Guardian SXSW Hack Day 2011"""
 import urllib2
 import demjson as json
 
-#Setup the password manager for basic auth in urllib2
-url = 'http://sxsw-hacks.musicmetric.com/'
-user = 'YOUR_API_USERNAME'
-pwd = 'YOUR_API_PASSWORD'
-pass_man = urllib2.HTTPPasswordMgrWithDefaultRealm()
-pass_man.add_password(None, url, user, pwd)
-authhandler = urllib2.HTTPBasicAuthHandler(pass_man)
-opener = urllib2.build_opener(authhandler)
-urllib2.install_opener(opener)
+from apikey import *
+
+#base url
+host = 'http://apib1.semetric.com/'
 
 #Download and decode the list of artists playing at SXSW 2011 (and their MBID's )
-mbid_names_str = urllib2.urlopen("http://sxsw-hacks.musicmetric.com/musicmetric/artist/mbid.json").read()
+mbid_names_str = urllib2.urlopen("{0}/musicmetric/artist/mbid.json?token={1}".format(host, API_KEY)).read()
 mbid_names = json.decode(mbid_names_str)
 
 #Setup a list to save the chart into
@@ -28,7 +23,7 @@ count = 0
 for mbid, name in mbid_names.items():
     try:  
         #Download, decode and load the artists fan age distribution
-        age_url = "http://sxsw-hacks.musicmetric.com/musicmetric/artist/%s/myspace_profile_age.json" % mbid
+        age_url = "{0}/musicmetric/artist/{1}/myspace_profile_age.json?token={2}".format(host, mbid, API_KEY)
         age_str = urllib2.urlopen(age_url).read()
         ages = json.decode(age_str)
         

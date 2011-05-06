@@ -1,23 +1,19 @@
 """Example code to generate a top 50 (or top n) chart based on the total number of fans 
-that artists playing at SXSW have on various social networks
+from various social networks from our top 1000 list
 
-Musicmetric at the Guardian SXSW Hack Day 2011"""
+originally created by Musicmetric for the Guardian SXSW Hack Day 2011"""
 
 import urllib2
 import demjson as json
+from apikey import *
+
 
 #Setup the password manager for basic auth in urllib2
-url = 'http://sxsw-hacks.musicmetric.com/'
-user = 'YOUR_API_USERNAME'
-pwd = 'YOUR_API_PASSWORD'
-pass_man = urllib2.HTTPPasswordMgrWithDefaultRealm()
-pass_man.add_password(None, url, user, pwd)
-authhandler = urllib2.HTTPBasicAuthHandler(pass_man)
-opener = urllib2.build_opener(authhandler)
-urllib2.install_opener(opener)
+host = 'http://apib1.semetric.com/'
 
-#Download and decode the list of artists playing at SXSW 2011 who also played at SXSW2010 (and their MBID's )
-mbid_names_str = urllib2.urlopen("http://sxsw-hacks.musicmetric.com/musicmetric/artist/mbid.json").read()
+#Download and decode the list of artists of our top 1000 (and their MBID's )
+mbid_names_str = urllib2.urlopen("{0}/musicmetric/artist/mbid.json?token={1}".\
+                                     format(host, API_KEY)).read()
 mbid_names = json.decode(mbid_names_str)
 
 #Setup a list to save the chart into
@@ -31,7 +27,7 @@ metrics = ["Facebook", "MySpace", "Twitter","YouTube","last.fm"]
 for mbid, name in mbid_names.items():
     try:  
         #Download, decode and load the artist metric into a list using the MBID
-        url = "http://sxsw-hacks.musicmetric.com/musicmetric/artist/%s/fans_snap.json" % mbid
+        url = "{0}/musicmetric/artist/{1}/fans_snap.json?token={2}".format(host, mbid, API_KEY)
         kpis_str = urllib2.urlopen(url).read()
         kpis = json.decode(kpis_str)
         for kpi in kpis:
@@ -40,6 +36,8 @@ for mbid, name in mbid_names.items():
                 chart.append([mbid_names[mbid], kpi[1]])
                 print mbid_names[mbid], kpi[1]
     except urllib2.HTTPError, e: #Some dodgy error handling
+        pass
+    except json.JSONDecodeError, e:
         pass
     count += 1
 #    print count
