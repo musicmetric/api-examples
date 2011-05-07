@@ -5,6 +5,15 @@ A simple example of using the musicmetric sentiment analysis call to analyse the
 
 call with the id of a tweet status as an argument and the script will output whether it's 
 very negative, negative, neutral, postive, or very positive
+
+so the call:
+
+python sentitweet.py 64466256081854464
+
+should return:
+>SunFest was a blast! Great stage, great sound, now let's get drunk!
+>sentiment is positive
+
 '''
 import sys
 import logging
@@ -12,7 +21,7 @@ import urllib2
 log = logging.getLogger(__name__)
 
 from simplejson import loads
-from apikey_private import *
+from apikey import *
 sentiment_words = {1:"very negative", 2:"negative", 3:"neutral", 4:"positive", 5:"very positive"}
 
 def main(argv):
