@@ -31,26 +31,26 @@ import urllib2
 from simplejson import loads
 from apikey import *
 
-HOST = 'http://apib1.semetric.com'
+base_url = 'http://apib1.semetric.com'
 
 
 class Sparkweb(sparkplot.Sparkplot):
-    def get_input_data(self, data_source, mbz_id):
+    def get_input_data(self, dataset_name, MBID):
         '''
         assembles and fetches data from a musicmetric timeseries datasource
         then formats the result for ploting timeseries
         '''
         raw_data = loads(urllib2.urlopen(\
-                HOST+'/musicmetric/artist/'+mbz_id+'/'+data_source+'.json?token='+API_KEY)\
+                base_url+'/musicmetric/artist/'+MBID+'/'+dataset_name+'.json?token='+API_KEY)\
                              .read())
         self.data = map(lambda x:x[1], raw_data[0][0])
 
 def main(argv):
     log.debug("argv: {0}".format(argv))
-    source = argv[-2]
-    mbz_id = argv[-1]
+    dataset_name = argv[-2]
+    MBID = argv[-1]
     sparker = Sparkweb()
-    sparker.get_input_data(source, mbz_id)
+    sparker.get_input_data(dataset_name, MBID)
     sparker.process_args()
     sparker.plot_sparkline()
     

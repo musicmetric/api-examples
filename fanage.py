@@ -9,10 +9,10 @@ import demjson as json
 from apikey import *
 
 #base url
-host = 'http://apib1.semetric.com/'
+base_url = 'http://apib1.semetric.com/'
 
 #Download and decode the list of artists playing at SXSW 2011 (and their MBID's )
-mbid_names_str = urllib2.urlopen("{0}/musicmetric/artist/mbid.json?token={1}".format(host, API_KEY)).read()
+mbid_names_str = urllib2.urlopen("{0}/musicmetric/artist/mbid.json?token={1}".format(base_url, API_KEY)).read()
 mbid_names = json.decode(mbid_names_str)
 
 #Setup a list to save the chart into
@@ -23,7 +23,7 @@ count = 0
 for mbid, name in mbid_names.items():
     try:  
         #Download, decode and load the artists fan age distribution
-        age_url = "{0}/musicmetric/artist/{1}/myspace_profile_age.json?token={2}".format(host, mbid, API_KEY)
+        age_url = "{0}/musicmetric/artist/{1}/myspace_profile_age.json?token={2}".format(base_url, mbid, API_KEY)
         age_str = urllib2.urlopen(age_url).read()
         ages = json.decode(age_str)
         

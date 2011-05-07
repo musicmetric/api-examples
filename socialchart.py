@@ -9,11 +9,11 @@ from apikey import *
 
 
 #Setup the password manager for basic auth in urllib2
-host = 'http://apib1.semetric.com/'
+base_url = 'http://apib1.semetric.com/'
 
 #Download and decode the list of artists of our top 1000 (and their MBID's )
 mbid_names_str = urllib2.urlopen("{0}/musicmetric/artist/mbid.json?token={1}".\
-                                     format(host, API_KEY)).read()
+                                     format(base_url, API_KEY)).read()
 mbid_names = json.decode(mbid_names_str)
 
 #Setup a list to save the chart into
@@ -27,7 +27,7 @@ metrics = ["Facebook", "MySpace", "Twitter","YouTube","last.fm"]
 for mbid, name in mbid_names.items():
     try:  
         #Download, decode and load the artist metric into a list using the MBID
-        url = "{0}/musicmetric/artist/{1}/fans_snap.json?token={2}".format(host, mbid, API_KEY)
+        url = "{0}/musicmetric/artist/{1}/fans_snap.json?token={2}".format(base_url, mbid, API_KEY)
         kpis_str = urllib2.urlopen(url).read()
         kpis = json.decode(kpis_str)
         for kpi in kpis:
