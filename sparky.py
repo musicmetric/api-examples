@@ -3,7 +3,12 @@
 '''
 generate a sparkline for an artist's timeseries data using sparkplot
   ( http://agiletesting.blogspot.com/2005/04/sparkplot-creating-sparklines-with.html )
-that's been fed data from the musicmetric api. Should be called like:
+that's been fed data from the musicmetric api. 
+Note that sparkplot uses matplotlib as it's underlying engine, so you'll need that too.
+It's available here: http://matplotlib.sourceforge.net/ or via easy_install
+
+
+Sparky should be called like:
 
 sparky.py [options] source_data artist_mbz_id
 
