@@ -21,7 +21,7 @@ import urllib2
 log = logging.getLogger(__name__)
 
 from simplejson import loads
-from apikey import *
+from apikey_private import *
 sentiment_words = {1:"very negative", 2:"negative", 3:"neutral", 4:"positive", 5:"very positive"}
 
 def main(argv):
@@ -34,9 +34,10 @@ def main(argv):
     
     #push to sentiment analysis
     print tweet_content
-    raw_senti = loads(urllib2.urlopen("http://apib1.semetric.com/musicmetric/sentiment?token="+\
+    raw_senti = loads(urllib2.urlopen("http://apib2.semetric.com/sentiment?token="+\
                       API_KEY, data = tweet_content).read())
-    print "sentiment is "+ sentiment_words[raw_senti['score']]
+    print "sentiment is", sentiment_words[raw_senti['response']['score']],
+    print "confidence is", raw_senti['response']['confidence']
     return 0
  
 if __name__ == "__main__":
