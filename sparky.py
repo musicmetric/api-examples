@@ -16,7 +16,7 @@ For the list of valid data sources see http://www.musicmetric.com/sf-api/
 
 So this call:
 
-python sparky.py -o delta_fans.png facebook_fans f9739c2f-d386-4b87-9258-03cd77e0ac55
+python sparky.py -o delta_fans.png fans/facebook f9739c2f-d386-4b87-9258-03cd77e0ac55
 
 will produce a sparkline in delta_fans.png with no text labels (default) of the daily
 change in facebook fans for Drop the Lime (mbz: f9739c2f-d386-4b87-9258-03cd77e0ac55)
@@ -31,7 +31,7 @@ import urllib2
 from simplejson import loads
 from apikey import *
 
-base_url = 'http://apib1.semetric.com'
+base_url = 'http://apib2.semetric.com'
 
 
 class Sparkweb(sparkplot.Sparkplot):
@@ -40,10 +40,11 @@ class Sparkweb(sparkplot.Sparkplot):
         assembles and fetches data from a musicmetric timeseries datasource
         then formats the result for ploting timeseries
         '''
-        raw_data = loads(urllib2.urlopen(\
-                base_url+'/musicmetric/artist/'+MBID+'/'+dataset_name+'.json?token='+API_KEY)\
+        raw_response = loads(urllib2.urlopen(\
+                base_url+'/artist/musicbrainz:'+MBID+'/'+dataset_name+'?token='+API_KEY)\
                              .read())
-        self.data = map(lambda x:x[1], raw_data[0][0])
+        self.data = raw_response['response']['data']
+        print self.data
 
 def main(argv):
     log.debug("argv: {0}".format(argv))
