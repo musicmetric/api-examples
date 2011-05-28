@@ -5,7 +5,7 @@ Some basic examples grabbing and manipulating data via the public musicmetric ap
 
 Currently all the examples are python, other language examples will be added in the future.
 
-For more details on what's available see the [api documentation](http://www.musicmetric.com/sf-api/).
+For more details on what's available see the [api documentation](http://developer.musicmetric.com/).
 
 
 Getting Access
