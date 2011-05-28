@@ -21,7 +21,7 @@ import urllib2
 log = logging.getLogger(__name__)
 
 from simplejson import loads
-from apikey_private import *
+from apikey import *
 sentiment_words = {1:"very negative", 2:"negative", 3:"neutral", 4:"positive", 5:"very positive"}
 
 def main(argv):
