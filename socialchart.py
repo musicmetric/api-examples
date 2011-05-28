@@ -9,32 +9,37 @@ from apikey import *
 
 
 #Setup the password manager for basic auth in urllib2
-base_url = 'http://apib1.semetric.com/'
+base_url = 'http://apib2.semetric.com/'
 
 #Download and decode the list of artists of our top 1000 (and their MBID's )
-mbid_names_str = urllib2.urlopen("{0}/musicmetric/artist/mbid.json?token={1}".\
+artist_ids_str = urllib2.urlopen("{0}/artist/?token={1}".\
                                      format(base_url, API_KEY)).read()
-mbid_names = json.decode(mbid_names_str)
+artist_ids = json.decode(artist_ids_str)['response']['artists']
 
 #Setup a list to save the chart into
 chart = []
 count = 0
 
 #Here is a list of some metrics that can be used to create the chart
-metrics = ["Facebook", "MySpace", "Twitter","YouTube","last.fm"]
+metrics = ["Facebook", "MySpace", "Twitter","YouTube","lastfm"]
 
 #Iterate through the list of artists and their MBID's
-for mbid, name in mbid_names.items():
+for sem_id, name in [(a['id'],a['name']) for a in artist_ids]:
     try:  
         #Download, decode and load the artist metric into a list using the MBID
-        url = "{0}/musicmetric/artist/{1}/fans_snap.json?token={2}".format(base_url, mbid, API_KEY)
+        url = "{0}/artist/{1}/kpi?token={2}".format(base_url, sem_id, API_KEY)
         kpis_str = urllib2.urlopen(url).read()
-        kpis = json.decode(kpis_str)
-        for kpi in kpis:
-            if kpi[0] == metrics[0]: # Here I have used just Facebook fans as the metric to create the chart
-                #This is where you could extend the code to calculate aggregates etc
-                chart.append([mbid_names[mbid], kpi[1]])
-                print mbid_names[mbid], kpi[1]
+        kpis = json.decode(kpis_str)['response']['fans']
+        # Here I have used just Facebook fans as the metric to create the chart
+        # Other metrics availabe: "myspace", "twitter","youtube","lastfm", "total"
+        try:
+            total_fans = kpis['facebook']['total']
+        except KeyError:
+            #no facebook data for an artist, so just continue
+            continue
+        #This is where you could extend the code to calculate aggregates etc
+        chart.append([name, total_fans])
+        print chart[-1]
     except urllib2.HTTPError, e: #Some dodgy error handling
         pass
     except json.JSONDecodeError, e:
