@@ -44,7 +44,6 @@ class Sparkweb(sparkplot.Sparkplot):
                 base_url+'/artist/musicbrainz:'+MBID+'/'+dataset_name+'?token='+API_KEY)\
                              .read())
         self.data = raw_response['response']['data']
-        print self.data
 
 def main(argv):
     log.debug("argv: {0}".format(argv))
