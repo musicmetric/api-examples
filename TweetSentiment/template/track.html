@@ -34,7 +34,7 @@ function update() {
 				tweet = tweets[i]["text"];
 				profile_image_url = tweets[i]["profile_image_url"]; 
 				$.post(
-					"http://apib2.semetric.com/sentiment?token=dd7bc0e50cdd4edca1f29af02f10e74f", {
+					"http://apib2.semetric.com/sentiment?token={your musicmetric token}", {
 						text: tweet
 					},
 					add_tweet_with_sentiment(tweets[i]),
