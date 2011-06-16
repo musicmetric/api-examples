@@ -1,0 +1,60 @@
+html, body {
+	font-family: 'Raleway', arial, serif;
+    background  : #F2F2F2;
+    font-size   : 50px;
+}
+
+a img {
+	border	: 0px;
+}
+
+
+.sentiment {
+	display	: block;
+	padding	: 10px 10px 10px 70px;
+	font-size	: 50px;	
+	border-bottom:	1px solid #888;
+}
+
+.positive {
+	background	: url(positive.png) 10px 10px no-repeat;
+}
+
+.negative {
+	background	: url(negative.png) 10px 10px no-repeat;
+}
+
+.profile {
+	margin-left	: 10px;
+    max-width   : 50px;
+    max-height  : 50px;
+}
+
+
+#form_wrapper {
+    text-align  : center;    
+    top         : 200px;
+    position    : relative;
+}
+
+#form_wrapper form {
+    float       : center;
+    margin-left : auto;
+   
+}
+
+input[type='text'] {
+    border      : 1px solid #DDD;
+    font-size   : 50px;
+    font-family: 'Raleway', arial, serif;
+}
+
+input[type='submit'] {
+    font-size   : 50px;
+    font-family: 'Raleway', arial, serif;
+}
+
+#title { 
+    text-align  : center;
+    margin      : 20px auto 20px;
+}

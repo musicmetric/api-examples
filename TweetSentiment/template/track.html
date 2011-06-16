@@ -1,0 +1,55 @@
+{% extends "scaffold.html" %}
+
+{% block header %}
+<div id="title"><a href="/">Sentiment Tracker</a></div>
+{% end %}
+
+{% block main %}
+<div id="content">
+</div>	
+{% end %}
+
+{% block footer %}
+<script>
+var last_tweet_id = null, currentIntervalId;
+$(document).ready(function(){
+	update();
+    currentIntervalId = setInterval(update, 5000);
+});
+
+function update() {
+	$.getJSON(
+		"http://search.twitter.com/search.json?callback=?", {	
+			q: "{{ escape(q) }}", 
+			rpp:5, 
+			since_id: (last_tweet_id)? last_tweet_id+1:null,
+			lang: "en"
+		},
+		function (result) {
+			var tweets = result.results;
+			if (!tweets) return;			
+			
+			last_tweet_id = tweets[0]["max_id"];
+			for (var i=0, l=tweets.length; i < l; i++) {
+				tweet = tweets[i]["text"];
+				profile_image_url = tweets[i]["profile_image_url"]; 
+				$.getJSON(
+					"http://apib2.semetric.com/sentiment?token={your musicmetric token}&callback=?", {
+						text: tweet
+					},
+					add_tweet_with_sentiment(tweets[i])
+				);
+			}
+		}
+	);
+}
+
+function add_tweet_with_sentiment(tweet) {
+	return function(result) {
+		var score = (result && result.success && result.response.confidence >= 0.0105)? result.response.score : 3;
+		var class = (score==1 || score==2)? "negative":(score==4 || score==5)? "positive": "neutral";
+		$("#content").append("<span class='sentiment "+class+"'>"+tweet["text"]+"<a target='_blank' href='http://twitter.com/#!/"+tweet["from_user"]+"'><img class='profile' src='"+tweet["profile_image_url"]+"'/></a></span>");
+	}
+}
+</script>
+{% end %}

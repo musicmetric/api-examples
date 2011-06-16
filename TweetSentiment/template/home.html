@@ -1,0 +1,11 @@
+{% extends "scaffold.html" %}
+
+{% block main %}
+<div id="form_wrapper">
+    <div>Sentiment Tracker</div>
+    <form action="/track" method="GET">
+        <input id="q" name="q" value="" type="text" />
+        <input id="submit" name="submit" value="track" type="submit"/>
+    </form>
+</div>
+{% end %}
