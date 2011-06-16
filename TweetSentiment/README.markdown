@@ -8,10 +8,13 @@ License at
 
 
 Prerequisite:
-- [Tornado](http://www.tornadoweb.org/)
+
+    - [Tornado](http://www.tornadoweb.org/)
 
 Before the run:
-- Replace with your musicmetric token in template/track.html
 
-Run:
->> python index.py
+     - Replace with your musicmetric token in template/track.html
+
+Run: (It works only in Chrome at the moment)
+
+     >> python index.py
