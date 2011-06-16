@@ -33,11 +33,12 @@ function update() {
 			for (var i=0, l=tweets.length; i < l; i++) {
 				tweet = tweets[i]["text"];
 				profile_image_url = tweets[i]["profile_image_url"]; 
-				$.getJSON(
-					"http://apib2.semetric.com/sentiment?token={your musicmetric token}&callback=?", {
+				$.post(
+					"http://apib2.semetric.com/sentiment?token=dd7bc0e50cdd4edca1f29af02f10e74f", {
 						text: tweet
 					},
-					add_tweet_with_sentiment(tweets[i])
+					add_tweet_with_sentiment(tweets[i]),
+                    "json"
 				);
 			}
 		}
