@@ -8,7 +8,7 @@ License at
 
 
 Prerequisite:
-- "Tornado":http://www.tornadoweb.org/
+- [Tornado](http://www.tornadoweb.org/)
 
 Before the run:
 - Replace with your musicmetric token in template/track.html
