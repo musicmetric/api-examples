@@ -32,7 +32,7 @@ function update() {
             for (var i=0, l=tweets.length; i < l; i++) texts.push(tweets[i]["text"]);
             if (texts.length > 0) {
                 $.getJSON(
-                    "http://apib2.semetric.com/sentiment?token=dd7bc0e50cdd4edca1f29af02f10e74f&callback=?", {
+                    "http://apib2.semetric.com/sentiment?token=your_musicmetric_token&callback=?", {
                         text: texts
                     },
                     add_tweet_with_sentiment(tweets, last_tweet_id)
