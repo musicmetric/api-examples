@@ -22,35 +22,36 @@ function update() {
 		"http://search.twitter.com/search.json?callback=?", {	
 			q: "{{ escape(q) }}", 
 			rpp:5, 
-			since_id: (last_tweet_id)? last_tweet_id+1:null,
-			lang: "en"
+			since_id: last_tweet_id
 		},
 		function (result) {
 			var tweets = result.results;
 			if (!tweets) return;			
 			
-			last_tweet_id = tweets[0]["max_id"];
-			for (var i=0, l=tweets.length; i < l; i++) {
-				tweet = tweets[i]["text"];
-				profile_image_url = tweets[i]["profile_image_url"]; 
-				$.post(
-					"http://apib2.semetric.com/sentiment?token={your musicmetric token}", {
-						text: tweet
-					},
-					add_tweet_with_sentiment(tweets[i]),
-                    "json"
-				);
-			}
+            texts = [];
+            for (var i=0, l=tweets.length; i < l; i++) texts.push(tweets[i]["text"]);
+            if (texts.length > 0) {
+                $.getJSON(
+                    "http://apib2.semetric.com/sentiment?token=dd7bc0e50cdd4edca1f29af02f10e74f&callback=?", {
+                        text: texts
+                    },
+                    add_tweet_with_sentiment(tweets, last_tweet_id)
+                );
+            }
+            last_tweet_id = result.max_id + "";
 		}
 	);
 }
-
-function add_tweet_with_sentiment(tweet) {
-	return function(result) {
-		var score = (result && result.success && result.response.confidence >= 0.0105)? result.response.score : 3;
-		var class = (score==1 || score==2)? "negative":(score==4 || score==5)? "positive": "neutral";
-		$("#content").append("<span class='sentiment "+class+"'>"+tweet["text"]+"<a target='_blank' href='http://twitter.com/#!/"+tweet["from_user"]+"'><img class='profile' src='"+tweet["profile_image_url"]+"'/></a></span>");
-	}
+function add_tweet_with_sentiment(tweets, last_tweet_id) {
+    return function(result) {
+        for (var i=0, l=tweets.length; i < l; i++) {
+            var tweet = tweets[i];
+            if (last_tweet_id && ((tweet.id+"") <= last_tweet_id)) continue;
+            var score = (result && result.success && result.response[i].confidence >= 0.0105)? result.response[i].score : 3;
+            var class = (score==1 || score==2)? "negative":(score==4 || score==5)? "positive": "neutral";
+            $("#content").prepend("<span class='sentiment "+class+"'>"+tweet["text"]+"<a target='_blank' href='http://twitter.com/#!/"+tweet["from_user"]+"'><img class='profile' src='"+tweet["profile_image_url"]+"'/></a></span>");
+        }
+    }
 }
 </script>
 {% end %}
