@@ -8,8 +8,7 @@ License at
 
 
 Prerequisite:
-
-    - [Tornado](http://www.tornadoweb.org/)
+- [Tornado](http://www.tornadoweb.org/)
 
 Before the run:
 
