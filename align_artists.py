@@ -13,7 +13,7 @@ import simplejson
 import urllib2
 from time import sleep
 
-from apikey_private import API_KEY
+from apikey import API_KEY
 
 help_message = ''' <input_file> <output_file>
 
